@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Mark" id="users-insert">
+        <insert tableName="users">
+            <column name="first_name" value="Иван"/>
+            <column name="last_name" value="Иванов"/>
+            <column name="email" value="ivan@ivanov.ru"/>
+            <column name="username" value="ivan_ivanov"/>
+            <column name="password" value="ivanPassword"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Пётр"/>
+            <column name="last_name" value="Петров"/>
+            <column name="email" value="peter@petrov.ru"/>
+            <column name="username" value="peter_petrov"/>
+            <column name="password" value="peterPassword"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Дмитрий"/>
+            <column name="last_name" value="Дмитриев"/>
+            <column name="email" value="dmitriy@dmitriev.ru"/>
+            <column name="username" value="dmitriy_dmitriev"/>
+            <column name="password" value="dmitriyPassword"/>
+            <column name="role_id" value="3"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Александр"/>
+            <column name="last_name" value="Александров"/>
+            <column name="email" value="alexandr@mail.ru"/>
+            <column name="username" value="alexandr"/>
+            <column name="password" value="alexandrPassword"/>
+            <column name="role_id" value="4"/>
+        </insert>
+        <insert tableName="users">
+            <column name="first_name" value="Елена"/>
+            <column name="last_name" value="Рябова"/>
+            <column name="email" value="elena@mail.ru"/>
+            <column name="username" value="elena"/>
+            <column name="password" value="elenaPassword"/>
+            <column name="role_id" value="5"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

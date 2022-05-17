@@ -18,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import test.dao.*;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Properties;
 
 @Configuration
@@ -69,6 +70,7 @@ public class WebConfig implements WebMvcConfigurer {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "none");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        hibernateProperties.setProperty("hibernate.connection.isolation",String.valueOf(Connection.TRANSACTION_READ_UNCOMMITTED));
 
         return hibernateProperties;
     }

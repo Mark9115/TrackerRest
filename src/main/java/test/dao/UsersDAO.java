@@ -3,6 +3,7 @@ package test.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.model.Users;
@@ -33,6 +34,32 @@ public class UsersDAO {
 
         session.close();
         return user;
+    }
+
+    public Users getUserByFirstNameAndLastName(String firstName, String lastName) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM Users WHERE firstName = :firstName AND lastName = :lastName";
+
+        @SuppressWarnings("unchecked")
+        Query<Users> query = session.createQuery(hql);
+        query.setParameter("firstName", firstName);
+        query.setParameter("lastName", lastName);
+        query.setFirstResult(0);
+        query.setMaxResults(1);
+
+        final List<Users> user = query.list();
+
+        transaction.commit();
+
+        session.close();
+
+        if(!user.isEmpty()){
+            return user.get(0);
+        }
+
+        throw new RuntimeException("Can't fetch data");
     }
 
     public Users addUser(Users user){

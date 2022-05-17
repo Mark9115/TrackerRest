@@ -3,6 +3,7 @@ package test.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.model.Projects;
@@ -34,6 +35,29 @@ public class ProjectsDAO {
 
         session.close();
         return project;
+    }
+
+    public Projects getProjectByProjectName(String projectName) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        @SuppressWarnings("unchecked")
+        Query<Projects> query = session.createQuery("FROM Projects WHERE projectName = :projectName");
+        query.setParameter("projectName", projectName);
+        query.setFirstResult(0);
+        query.setMaxResults(1);
+
+        final List<Projects> project = query.list();
+
+        transaction.commit();
+
+        session.close();
+
+        if(!project.isEmpty()){
+            return project.get(0);
+        }
+
+        throw new RuntimeException("Can't fetch data");
     }
 
     public Projects addProject(Projects project){

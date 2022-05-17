@@ -12,7 +12,9 @@ import test.model.Projects;
 import test.model.Tasks;
 import test.model.Users;
 
-import java.util.List;
+
+import java.sql.Timestamp;
+
 import java.util.Map;
 
 @RestController
@@ -28,12 +30,50 @@ public class MainEndPointController {
     }
 
     @RequestMapping(value = "/tracker", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Tasks tracker(@RequestBody Map<String, Object> test) {
+    public String tracker(@RequestBody Map<String, String> test) {
+        Users user = new Users();
+        Projects project = new Projects();
+        Tasks task = new Tasks();
 
-        for (Map.Entry<String, Object> entry : test.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
+        for (Map.Entry<String, String> entry : test.entrySet()) {
+            if (entry.getKey().equals("firstName")) {
+                user.setFirstName(entry.getValue());
+            }
+            if (entry.getKey().equals("lastName")) {
+                user.setLastName(entry.getValue());
+            }
+            if (entry.getKey().equals("issue")) {
+                task.setIssue(entry.getValue());
+            }
+            if (entry.getKey().equals("projectName")) {
+                project.setProjectName(entry.getValue());
+            }
+
         }
 
-        return null;
+        try {
+            if (task.getIssue() == null) {
+                throw new RuntimeException("Please enter the information about issue!");
+            }
+            if (user.getFirstName() != null && user.getLastName() != null) {
+                Users fullUser = usersDAO.getUserByFirstNameAndLastName(user.getFirstName(), user.getLastName());
+                task.setUser(fullUser);
+            } else
+                throw new RuntimeException("Please enter your first name and last name!");
+
+            if (project.getProjectName() != null) {
+                Projects fullProject = projectsDAO.getProjectByProjectName(project.getProjectName());
+                task.setProject(fullProject);
+            } else
+                throw new RuntimeException("Please enter project name!");
+        } catch (RuntimeException exception) {
+            return exception.getMessage();
+        }
+
+        task.setTime(new Timestamp(System.currentTimeMillis()));
+
+
+        tasksDAO.addTask(task);
+        return "DONE!";
     }
 }

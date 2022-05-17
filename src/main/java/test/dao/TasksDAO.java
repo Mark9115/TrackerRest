@@ -3,15 +3,17 @@ package test.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.model.Tasks;
 
 import java.util.List;
 @Repository
 public class TasksDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    public TasksDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     public List<Tasks> getTasks() {
         Session session = sessionFactory.openSession();

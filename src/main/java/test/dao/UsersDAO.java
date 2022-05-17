@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.model.Roles;
 import test.model.Users;
@@ -12,10 +11,13 @@ import test.model.Users;
 import java.util.List;
 @Repository
 public class UsersDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
-    @Autowired
-    private RolesDAO rolesDAO;
+    private final SessionFactory sessionFactory;
+    private final RolesDAO rolesDAO;
+
+    public UsersDAO(RolesDAO rolesDAO, SessionFactory sessionFactory) {
+        this.rolesDAO = rolesDAO;
+        this.sessionFactory = sessionFactory;
+    }
 
     public List<Users> getUsers(){
         Session session = sessionFactory.openSession();

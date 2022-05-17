@@ -15,14 +15,13 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import test.dao.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "test.controller")
+@ComponentScan(basePackages = "test")
 @EnableWebMvc
 @EnableSwagger2
 @EnableTransactionManagement
@@ -81,22 +80,5 @@ public class WebConfig implements WebMvcConfigurer {
         liquibase.setChangeLog("classpath:db/changelog/db.changelog-master.xml");
         liquibase.setDataSource(dataSource());
         return liquibase;
-    }
-
-    @Bean
-    public UsersDAO usersDAO() {
-        return new UsersDAO();
-    }
-    @Bean
-    public RolesDAO rolesDAO() {
-        return new RolesDAO();
-    }
-    @Bean
-    public ProjectsDAO projectsDAO() {
-        return new ProjectsDAO();
-    }
-    @Bean
-    public TasksDAO tasksDAO() {
-        return new TasksDAO();
     }
 }
